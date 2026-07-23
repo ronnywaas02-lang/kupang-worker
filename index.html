@@ -3,233 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pendaftaran Pekerja - Kerja Kupang</title>
-    <!-- Tailwind CSS (Desain) -->
+    <title>Kerja Kupang - Cari Tukang & Tenaga Kerja Terpercaya</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Supabase JS Library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        .gradient-bg { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.15); }
+    </style>
 </head>
-<body class="bg-slate-100 min-h-screen p-4 flex justify-center items-center font-sans">
+<body class="bg-slate-50 min-h-screen font-sans text-slate-800 pb-20">
 
-    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-xl max-w-md w-full border border-slate-200 my-6 relative">
-        
-        <!-- Tombol Kembali ke Beranda (Sudah diperbaiki ke index.html) -->
-        <a href="index.html" class="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 hover:text-blue-800 mb-4 transition-colors">
-            <i class="fa-solid fa-arrow-left"></i> Kembali ke Beranda
-        </a>
-
-        <!-- Header -->
-        <div class="text-center mb-6">
-            <h1 class="text-2xl font-bold text-blue-900">Kupang Kerja 🌐</h1>
-            <p class="text-xs text-slate-600 mt-1">Daftarkan keahlian Kaka dong di sini (100% Gratis!)</p>
+    <header class="gradient-bg text-white sticky top-0 z-50 shadow-md">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col sm:flex-row justify-between items-center gap-3">
+            <div class="flex items-center gap-2">
+                <span class="text-2xl">🌐</span>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight">Kerja Kupang</h1>
+                    <p class="text-xs text-blue-200">Portal Tenaga Kerja Kupang & Sekitarnya</p>
+                </div>
+            </div>
+            <div class="flex items-center flex-wrap gap-2.5">
+                <a href="register-pekerja.html" class="bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold px-3 py-2 rounded-xl transition-all shadow flex items-center gap-1.5">
+                    <i class="fa-solid fa-user-plus"></i> Daftar Jadi Tukang
+                </a>
+            </div>
         </div>
+    </header>
 
-        <!-- Form Pendaftaran -->
-        <form id="workerForm" class="space-y-4">
-            
-            <!-- Nama Lengkap -->
-            <div>
-                <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Lengkap *</label>
-                <input type="text" id="fullName" required placeholder="Contoh: Anton Benu" 
-                       class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+    <section class="bg-blue-900 text-blue-100 py-6 px-4 text-center border-b border-blue-800">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-xl md:text-2xl font-bold text-white mb-2">Cari Tukang & Tenaga Kerja Harian di Kupang</h2>
+            <p class="text-sm text-blue-200 mb-4">Hubungi langsung pekerja lokal terpercaya.</p>
+        </div>
+    </section>
+
+    <main class="max-w-6xl mx-auto px-4 pt-6">
+        <div id="workerGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="col-span-full text-center py-12 text-slate-500">
+                <i class="fa-solid fa-spinner fa-spin text-3xl text-blue-600 mb-3"></i>
+                <p class="text-sm font-medium">Memuat data pekerja...</p>
             </div>
+        </div>
+    </main>
 
-            <!-- Nomor WhatsApp -->
-            <div>
-                <label class="block text-xs font-semibold text-slate-700 mb-1">Nomor WhatsApp *</label>
-                <input type="tel" id="whatsapp" required placeholder="081234567890" 
-                       class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none">
-            </div>
-
-            <!-- Wilayah & Kecamatan -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">Wilayah *</label>
-                    <select id="region" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none">
-                        <option value="Kota Kupang">Kota Kupang</option>
-                        <option value="Kabupaten Kupang">Kabupaten Kupang</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">Kecamatan *</label>
-                    <input type="text" id="subRegion" required placeholder="Misal: Oebobo" 
-                           class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none">
-                </div>
-            </div>
-
-            <!-- Pilihan Keahlian Utama -->
-            <div>
-                <label class="block text-xs font-semibold text-slate-700 mb-2">Pilih Keahlian Utama *</label>
-                <div class="grid grid-cols-2 gap-2 text-xs">
-                    <label class="flex items-center gap-2 p-2 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100">
-                        <input type="checkbox" name="skills" value="Tukang Cat" class="rounded text-blue-600"> Tukang Cat
-                    </label>
-                    <label class="flex items-center gap-2 p-2 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100">
-                        <input type="checkbox" name="skills" value="Tukang Keramik" class="rounded text-blue-600"> Tukang Keramik
-                    </label>
-                    <label class="flex items-center gap-2 p-2 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100">
-                        <input type="checkbox" name="skills" value="Tukang Las" class="rounded text-blue-600"> Tukang Las
-                    </label>
-                    <label class="flex items-center gap-2 p-2 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100">
-                        <input type="checkbox" name="skills" value="Tukang Plafon" class="rounded text-blue-600"> Tukang Plafon
-                    </label>
-                    <label class="flex items-center gap-2 p-2 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100">
-                        <input type="checkbox" name="skills" value="Pasang Batako" class="rounded text-blue-600"> Pasang Batako
-                    </label>
-                    <label class="flex items-center gap-2 p-2 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100">
-                        <input type="checkbox" name="skills" value="Tukang Kayu" class="rounded text-blue-600"> Tukang Kayu
-                    </label>
-                    <label class="flex items-center gap-2 p-2 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100">
-                        <input type="checkbox" name="skills" value="Tukang Masak" class="rounded text-blue-600"> Tukang Masak
-                    </label>
-                    <label class="flex items-center gap-2 p-2 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100">
-                        <input type="checkbox" name="skills" value="Tukang Bangunan" class="rounded text-blue-600"> Tukang Bangunan
-                    </label>
-                    <label class="flex items-center gap-2 p-2 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100">
-                        <input type="checkbox" name="skills" value="Tukang Kebun" class="rounded text-blue-600"> Tukang Kebun
-                    </label>
-                    <label class="flex items-center gap-2 p-2 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100">
-                        <input type="checkbox" name="skills" value="ART / Asisten" class="rounded text-blue-600"> ART / Asisten
-                    </label>
-                    <label class="flex items-center gap-2 p-2 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100">
-                        <input type="checkbox" name="skills" value="Supir / Driver" class="rounded text-blue-600"> Supir / Driver
-                    </label>
-                    <label class="flex items-center gap-2 p-2 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100">
-                        <input type="checkbox" name="skills" value="Tukang Listrik" class="rounded text-blue-600"> Tukang Listrik
-                    </label>
-                </div>
-            </div>
-
-            <!-- Keahlian Lainnya -->
-            <div>
-                <label class="block text-xs font-semibold text-slate-700 mb-1">Keahlian Lainnya (Jika belum ada di atas):</label>
-                <input type="text" id="otherSkill" placeholder="Contoh: Montir, Sumur Bor (pisahkan koma)" 
-                       class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-blue-500 outline-none">
-            </div>
-
-            <!-- Ekspektasi Tarif -->
-            <div>
-                <label class="block text-xs font-semibold text-slate-700 mb-1">Ekspektasi Tarif / Gaji *</label>
-                <div class="grid grid-cols-3 gap-2">
-                    <div class="col-span-2">
-                        <input type="number" id="rateAmount" required placeholder="150000" 
-                               class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none">
-                    </div>
-                    <div>
-                        <select id="rateUnit" class="w-full px-2 py-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none">
-                            <option value="Hari">/ Hari</option>
-                            <option value="Jam">/ Jam</option>
-                            <option value="Bulan">/ Bulan</option>
-                            <option value="Borongan">/ Borongan</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="mt-1.5 flex items-center gap-2">
-                    <input type="checkbox" id="isNegotiable" class="rounded text-blue-600" checked>
-                    <label for="isNegotiable" class="text-xs text-slate-600">Harga Bisa Dinegosiasikan (Bisa Nego)</label>
-                </div>
-            </div>
-
-            <!-- Pengalaman Singkat -->
-            <div>
-                <label class="block text-xs font-semibold text-slate-700 mb-1">Ceritakan Pengalaman Singkat</label>
-                <textarea id="experience" rows="2" placeholder="Contoh: Pengalaman 3 tahun tukang cat rumah, hasil rapi." 
-                          class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-blue-500 outline-none"></textarea>
-            </div>
-
-            <!-- Foto Diri / Pas Foto -->
-            <div>
-                <label class="block text-xs font-semibold text-slate-700 mb-1">Foto Diri / Pas Foto *</label>
-                <input type="file" id="photoFile" accept="image/*" required 
-                       class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
-                <p class="text-[10px] text-slate-400 mt-1">Format gambar: JPG, PNG (Maks. 2MB)</p>
-            </div>
-
-            <!-- Tombol Kirim -->
-            <button type="submit" id="submitBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl shadow-md transition-all text-sm">
-                🚀 Daftar Sekarang
-            </button>
-        </form>
-    </div>
-
-    <!-- Script Supabase & Logika Pendaftaran -->
     <script>
-        const SUPABASE_URL = "https://hxjundgbquybpralwlrj.supabase.co"; 
-        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh4anVuZGdicXV5YnByYWx3bHJqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ2MDc2MzgsImV4cCI6MjEwMDE4MzYzOH0.ONX-_q_rU84BDN7GSQvVJNZSVkcC88qjcDxXVllWjp8";
-
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-        document.getElementById('workerForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('submitBtn');
-            btn.innerText = "Mengirim Data...";
-            btn.disabled = true;
-
+        const SUPABASE_URL = "https://hxjundgbquybpralwlrj.supabase.co";
+        async function fetchWorkers() {
             try {
-                // Ambil data checkbox keahlian
-                const selectedSkills = Array.from(document.querySelectorAll('input[name="skills"]:checked')).map(el => el.value);
-                const otherSkill = document.getElementById('otherSkill').value.trim();
-                if (otherSkill) {
-                    otherSkill.split(',').forEach(s => selectedSkills.push(s.trim()));
-                }
-
-                if (selectedSkills.length === 0) {
-                    alert("Pilih minimal satu keahlian!");
-                    btn.innerText = "🚀 Daftar Sekarang";
-                    btn.disabled = false;
+                const res = await fetch(`${SUPABASE_URL}/rest/v1/workers?select=*`);
+                const data = await res.json();
+                const grid = document.getElementById('workerGrid');
+                if(!data || data.length === 0) {
+                    grid.innerHTML = '<div class="col-span-full text-center py-12 text-slate-400">Belum ada pekerja terdaftar.</div>';
                     return;
                 }
-
-                // Upload Foto ke Supabase Storage (atau pakai placeholder jika belum diatur bucket-nya)
-                const fileInput = document.getElementById('photoFile');
-                let photoUrl = "https://via.placeholder.com/150";
-
-                if (fileInput.files.length > 0) {
-                    const file = fileInput.files[0];
-                    const fileName = `${Date.now()}_${file.name}`;
-                    
-                    const { data: uploadData, error: uploadError } = await supabaseClient.storage
-                        .from('worker-photos')
-                        .upload(fileName, file);
-
-                    if (!uploadError) {
-                        const { data: publicUrlData } = supabaseClient.storage
-                            .from('worker-photos')
-                            .getPublicUrl(fileName);
-                        photoUrl = publicUrlData.publicUrl;
-                    }
-                }
-
-                // Kirim data pekerja ke Database Supabase
-                const { error: dbError } = await supabaseClient.from('workers').insert([
-                    {
-                        full_name: document.getElementById('fullName').value,
-                        whatsapp: document.getElementById('whatsapp').value,
-                        region: document.getElementById('region').value,
-                        sub_region: document.getElementById('subRegion').value,
-                        skills: selectedSkills,
-                        rate_amount: parseFloat(document.getElementById('rateAmount').value) || 0,
-                        rate_unit: document.getElementById('rateUnit').value,
-                        is_negotiable: document.getElementById('isNegotiable').checked,
-                        experience: document.getElementById('experience').value,
-                        photo_url: photoUrl
-                    }
-                ]);
-
-                if (dbError) throw dbError;
-
-                alert("Pendaftaran Berhasil! Data Kaka sudah masuk ke sistem.");
-                window.location.href = "index.html";
-
-            } catch (err) {
-                console.error("Error:", err);
-                alert("Gagal mendaftar: " + (err.message || 'Terjadi kesalahan sistem'));
-                btn.innerText = "🚀 Daftar Sekarang";
-                btn.disabled = false;
-            }
-        });
+                grid.innerHTML = data.map(w => `
+                    <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+                        <h3 class="font-bold text-slate-900 text-base">${w.full_name}</h3>
+                        <p class="text-xs text-slate-500 mb-2">${w.sub_region || ''}, ${w.region || ''}</p>
+                        <p class="text-xs text-emerald-600 font-bold mb-3">Tarif: Rp ${parseInt(w.rate_amount || 0).toLocaleString('id-ID')} / ${w.rate_unit || 'Hari'}</p>
+                        <a href="https://wa.me/${w.whatsapp}" target="_blank" class="block text-center bg-emerald-600 text-white font-bold py-2 rounded-xl text-xs">
+                            <i class="fa-brands fa-whatsapp"></i> Hubungi WhatsApp
+                        </a>
+                    </div>
+                `).join('');
+            } catch(e) { console.error(e); }
+        }
+        fetchWorkers();
     </script>
 </body>
 </html>
