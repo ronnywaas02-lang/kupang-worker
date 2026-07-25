@@ -102,15 +102,15 @@
                             ${w.description ? `<p class="text-xs text-slate-600 mb-3 italic">"${w.description}"</p>` : ''}
                             <p class="text-xs text-emerald-600 font-bold mb-3">Tarif: Rp ${parseInt(w.rate_amount || 0).toLocaleString('id-ID')} / ${w.rate_unit || 'Hari'}</p>
                         </div>
-                        <a href="https://wa.me/${w.whatsapp}" target="_blank" class="block text-center bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-xl text-xs transition-all mt-2">
-                            <i class="fa-brands fa-whatsapp"></i> Hubungi WhatsApp
-                        </a>
+                        <!-- Tombol WhatsApp dinonaktifkan sementara untuk alasan keamanan -->
+                        <div class="block text-center bg-slate-100 text-slate-400 font-medium py-2 rounded-xl text-xs mt-2 cursor-not-allowed">
+                            <i class="fa-solid fa-lock"></i> Kontak Ditutup Sementara
+                        </div>
                     </div>
                 `;
             }).join('');
         }
 
-        // Fitur Pencarian Real-time
         document.getElementById('searchSkill').addEventListener('input', (e) => {
             const keyword = e.target.value.toLowerCase();
             const filtered = allWorkers.filter(w => {
