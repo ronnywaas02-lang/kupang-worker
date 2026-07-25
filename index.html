@@ -60,11 +60,11 @@
                     return;
                 }
                 grid.innerHTML = data.map(w => `
-                    <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+                    <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm card-hover">
                         <h3 class="font-bold text-slate-900 text-base">${w.full_name}</h3>
                         <p class="text-xs text-slate-500 mb-2">${w.sub_region || ''}, ${w.region || ''}</p>
                         <p class="text-xs text-emerald-600 font-bold mb-3">Tarif: Rp ${parseInt(w.rate_amount || 0).toLocaleString('id-ID')} / ${w.rate_unit || 'Hari'}</p>
-                        <a href="https://wa.me/${w.whatsapp}" target="_blank" class="block text-center bg-emerald-600 text-white font-bold py-2 rounded-xl text-xs">
+                        <a href="https://wa.me/${w.whatsapp}" target="_blank" class="block text-center bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-xl text-xs transition-all">
                             <i class="fa-brands fa-whatsapp"></i> Hubungi WhatsApp
                         </a>
                     </div>
