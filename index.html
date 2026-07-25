@@ -13,8 +13,8 @@
         .card-hover:hover { transform: translateY(-4px); box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.15); }
     </style>
 </head>
-<!-- Mengubah latar belakang menjadi biru 10% (bg-blue-50) -->
-<body class="bg-blue-50/60 min-h-screen font-sans text-slate-800 pb-20">
+<!-- Mengubah latar belakang menjadi biru 20% (bg-blue-100/70) -->
+<body class="bg-blue-100/70 min-h-screen font-sans text-slate-800 pb-20">
 
     <header class="gradient-bg text-white sticky top-0 z-50 shadow-md">
         <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col sm:flex-row justify-between items-center gap-3">
@@ -101,7 +101,7 @@
                 const skillsHtml = Array.isArray(skillsArr) ? skillsArr.map(s => `<span class="bg-blue-50 text-blue-700 text-[10px] font-semibold px-2 py-0.5 rounded-md">${s}</span>`).join('') : '';
 
                 return `
-                    <div class="bg-white rounded-2xl border border-blue-100 p-5 shadow-sm card-hover flex flex-col justify-between">
+                    <div class="bg-white rounded-2xl border border-blue-200 p-5 shadow-sm card-hover flex flex-col justify-between">
                         <div>
                             <div class="flex items-center gap-3 mb-3">
                                 <img src="${w.photo_url || 'https://via.placeholder.com/150'}" alt="${w.full_name}" class="w-12 h-12 rounded-full object-cover border border-slate-200 shadow-sm">
