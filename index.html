@@ -66,23 +66,36 @@
                     grid.innerHTML = '<div class="col-span-full text-center py-12 text-slate-400">Belum ada pekerja terdaftar.</div>';
                     return;
                 }
-                grid.innerHTML = data.map(w => `
-                    <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm card-hover flex flex-col justify-between">
-                        <div>
-                            <div class="flex items-center gap-3 mb-3">
-                                <img src="${w.photo_url || 'https://via.placeholder.com/150'}" alt="${w.full_name}" class="w-12 h-12 rounded-full object-cover border border-slate-200 shadow-sm">
-                                <div>
-                                    <h3 class="font-bold text-slate-900 text-base leading-tight">${w.full_name}</h3>
-                                    <p class="text-xs text-slate-500">${w.sub_region || ''}, ${w.region || ''}</p>
+                grid.innerHTML = data.map(w => {
+                    // Mengatasi format skills jika berupa array atau string
+                    let skillsArr = w.skills;
+                    if (typeof skillsArr === 'string') {
+                        try { skillsArr = JSON.parse(skillsArr); } catch(e) { skillsArr = [w.skills]; }
+                    }
+                    const skillsHtml = Array.isArray(skillsArr) ? skillsArr.map(s => `<span class="bg-blue-50 text-blue-700 text-[10px] font-semibold px-2 py-0.5 rounded-md">${s}</span>`).join('') : '';
+
+                    return `
+                        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm card-hover flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center gap-3 mb-3">
+                                    <img src="${w.photo_url || 'https://via.placeholder.com/150'}" alt="${w.full_name}" class="w-12 h-12 rounded-full object-cover border border-slate-200 shadow-sm">
+                                    <div>
+                                        <h3 class="font-bold text-slate-900 text-base leading-tight">${w.full_name}</h3>
+                                        <p class="text-xs text-slate-500">${w.sub_region || ''}, ${w.region || ''}</p>
+                                    </div>
                                 </div>
+                                <div class="flex flex-wrap gap-1 mb-3">
+                                    ${skillsHtml}
+                                </div>
+                                ${w.description ? `<p class="text-xs text-slate-600 mb-3 italic">"${w.description}"</p>` : ''}
+                                <p class="text-xs text-emerald-600 font-bold mb-3">Tarif: Rp ${parseInt(w.rate_amount || 0).toLocaleString('id-ID')} / ${w.rate_unit || 'Hari'}</p>
                             </div>
-                            <p class="text-xs text-emerald-600 font-bold mb-3">Tarif: Rp ${parseInt(w.rate_amount || 0).toLocaleString('id-ID')} / ${w.rate_unit || 'Hari'}</p>
+                            <a href="https://wa.me/${w.whatsapp}" target="_blank" class="block text-center bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-xl text-xs transition-all mt-2">
+                                <i class="fa-brands fa-whatsapp"></i> Hubungi WhatsApp
+                            </a>
                         </div>
-                        <a href="https://wa.me/${w.whatsapp}" target="_blank" class="block text-center bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-xl text-xs transition-all mt-2">
-                            <i class="fa-brands fa-whatsapp"></i> Hubungi WhatsApp
-                        </a>
-                    </div>
-                `).join('');
+                    `;
+                }).join('');
             } catch(e) { console.error(e); }
         }
         fetchWorkers();
