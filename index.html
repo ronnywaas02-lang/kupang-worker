@@ -17,18 +17,18 @@
 
     <header class="gradient-bg text-white sticky top-0 z-50 shadow-md">
         <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col sm:flex-row justify-between items-center gap-3">
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-3">
                 <span class="text-2xl">🌐</span>
                 <div>
                     <h1 class="font-bold text-lg leading-tight">Terminal Skill</h1>
-                    <p class="text-xs text-blue-200">Portal Tenaga Kerja Kupang & Sekitarnya</p>
+                    <!-- Total Skiller diletakkan di bawah judul header -->
+                    <p class="text-xs text-blue-200 font-medium" id="totalSkillerHeader">Total Skiller : Memuat...</p>
                 </div>
             </div>
             <div class="flex items-center flex-wrap gap-2.5">
                 <a href="register-pekerja.html" class="bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold px-3 py-2 rounded-xl transition-all shadow flex items-center gap-1.5">
                     <i class="fa-solid fa-user-plus"></i> Masuk Bursa Pekerja
                 </a>
-                <!-- Tombol Chat Admin dengan nomor 628113955501 -->
                 <a href="https://wa.me/628113955501?text=Halo%20Admin%20Terminal%20Skill,%20saya%20ingin%20bertanya..." target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-3 py-2 rounded-xl transition-all shadow flex items-center gap-1.5 border border-blue-400">
                     <i class="fa-brands fa-whatsapp"></i> Chat Admin
                 </a>
@@ -38,7 +38,6 @@
 
     <section class="bg-blue-900 text-blue-100 py-8 px-4 text-center border-b border-blue-800">
         <div class="max-w-3xl mx-auto">
-            <!-- Welcome Message / Pesan Sambutan -->
             <div class="mb-4 inline-block bg-blue-800/80 border border-blue-700 px-4 py-1.5 rounded-full text-xs text-blue-200 shadow-inner">
                 👋 Selamat Datang di <b>Terminal Skill</b> — Solusi Cepat Cari Tenaga Kerja Lokal
             </div>
@@ -77,8 +76,16 @@
                     }
                 });
                 allWorkers = await res.json();
+                
+                // Update Total Skiller di Header
+                const totalCount = allWorkers.length || 0;
+                document.getElementById('totalSkillerHeader').innerText = `Total Skiller : ${totalCount} Orang`;
+
                 renderWorkers(allWorkers);
-            } catch(e) { console.error(e); }
+            } catch(e) { 
+                console.error(e); 
+                document.getElementById('totalSkillerHeader').innerText = `Total Skiller : 0 Orang`;
+            }
         }
 
         function renderWorkers(data) {
