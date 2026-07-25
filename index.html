@@ -50,9 +50,16 @@
 
     <script>
         const SUPABASE_URL = "https://hxjundgbquybpralwlrj.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh4anVuZGdicXV5YnByYWx3bHJqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ2MDc2MzgsImV4cCI6MjEwMDE4MzYzOH0.ONX-_q_rU84BDN7GSQvVJNZSVkcC88qjcDxXVllWjp8";
+
         async function fetchWorkers() {
             try {
-                const res = await fetch(`${SUPABASE_URL}/rest/v1/workers?select=*`);
+                const res = await fetch(`${SUPABASE_URL}/rest/v1/workers?select=*`, {
+                    headers: {
+                        "apikey": SUPABASE_ANON_KEY,
+                        "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
+                    }
+                });
                 const data = await res.json();
                 const grid = document.getElementById('workerGrid');
                 if(!data || data.length === 0) {
